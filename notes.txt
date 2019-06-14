@@ -1,0 +1,3 @@
+Initial conditions:
+
+Uniform distribution in space and all genomes equal.
