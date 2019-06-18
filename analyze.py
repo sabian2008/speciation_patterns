@@ -39,7 +39,6 @@ def classify(genes, G):
                species.
     """
 
-    import igraph
     import networkx as nx
 
     # Calculate distance
@@ -63,7 +62,7 @@ def classify(genes, G):
 
 
 # Load simulation
-target = "S4-G20.npz"
+target = "S6-G20.npz"
 
 data = np.load(target)
 
@@ -72,15 +71,27 @@ genes, pos, params = data['genes'], data['pos'], data['params'][()]
 G = params['G']  # Max. genetic distance
 
 
-t = -1  # Target time (-1 is the last one)
+#t = 2050//25  # Target time (-1 is the last one)
 
-# Classify genomes into species
-species = classify(genes[t], G)
+species = []
 
-# Plot geographical distribution of species
 fig, ax = plt.subplots(1,1)
-for s in species:
-    ax.scatter(pos[t,list(s),0], pos[t,list(s),1], s=2)
 
-fig.tight_layout()
 plt.show()
+
+for t in range(500, genes.shape[0]):
+    # Classify genomes into species
+    species.append(classify(genes[t], G))
+
+    # Plot geographical distribution of species
+    ax.clear()
+    for s in species[t-500]:
+        ax.scatter(pos[t,list(s),0], pos[t,list(s),1], s=5)
+
+    ax.set_xlim([1, 128])
+    ax.set_ylim([1, 128])
+
+    plt.pause(0.1)
+
+    fig.tight_layout()
+

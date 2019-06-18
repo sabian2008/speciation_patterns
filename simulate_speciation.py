@@ -63,8 +63,8 @@ def reproduce(genes, dist, gendist, S, G, P):
       - out:     Bx1 vector with the genome for the offspring.
     """
 
-    myG = G+1
-    myS = S+1
+    myG = G
+    myS = S
 
     # Find viable partners
     viable = (dist <= myS) & (gendist <= myG)
@@ -99,7 +99,7 @@ Ny    = Nx        # Lattice size in Y
 
 N     = Nx*Ny//8  # Number of individuals
 
-S     = 4         # Max. geometric mating distance
+S     = 6         # Max. geometric mating distance
 G     = 20        # Min. genetic mating distance
 P     = 8         # Min. number of possible mates
 
@@ -111,10 +111,10 @@ mu    = 0.001     # Probability of mutation
 pmu   = 0.65      # p value of the geometric distribution
                   # that regulates number of genes that mutate
 
-tend  = 2500      # Number of generations to evolve
-tsave = 25        # Save every tsave generations
+tend  = 1000      # Number of generations to evolve
+tsave = 1         # Save every tsave generations
 
-prev  = True      # True for loading a previous run. All the parameters
+prev  = False     # True for loading a previous run. All the parameters
                   # must be the same (this is not checked)
 
 # ------------
@@ -174,8 +174,7 @@ for t in range(0, tend+1):
         # Mutations
         if mutate[i]:
             # Number of genes to mutate from geometric distribution
-            # which ends at B-1
-            num_mutations = (random.geometric(pmu) - 1) % B
+            num_mutations = random.geometric(pmu) % B
 
             # Determine positions to flip (replace=False guarantees
             # num_mutations different positions). Then flip genome
@@ -190,7 +189,7 @@ for t in range(0, tend+1):
                 dx, dy = random.randint(-2, high=3, size=2)
 
             # Apply translation (module is for periodicity)
-            tpos[i, 0] = (tpos[i, 0] + dx -1) % Nx + 1
+            tpos[i, 0] = (tpos[i, 0] + dx - 1) % Nx + 1
             tpos[i, 1] = (tpos[i, 1] + dy - 1) % Ny + 1
 
     # Offsprings are now parents
