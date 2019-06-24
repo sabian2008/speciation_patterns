@@ -99,7 +99,7 @@ Ny    = Nx        # Lattice size in Y
 
 N     = Nx*Ny//8  # Number of individuals
 
-S     = 6         # Max. geometric mating distance
+S     = 5         # Max. geometric mating distance
 G     = 20        # Min. genetic mating distance
 P     = 8         # Min. number of possible mates
 
